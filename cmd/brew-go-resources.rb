@@ -1,5 +1,19 @@
 # -*- coding: UTF-8 -*-
 
+# Description: generate `go_resource`s blocks for a Go package that uses Godep.
+# Author: Baptiste Fontaine
+# Usage:
+#   brew go-resources [path]
+#
+# It'll use the current path if it's not given. Valid paths include the
+# project's root, its Godeps directory, and its Godeps.json file, e.g.:
+#
+# $ git clone https://github.com/example/a-go-project.git
+# $ brew go-resources a-go-project
+#
+# Note that some projects require more `go_resource`s than the ones specified
+# in their Godeps.json, especially regarding build tools.
+
 require "extend/string"
 
 require "json"
