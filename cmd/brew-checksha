@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+"""Given a URL and either a SHA-1 or a SHA-256 hash, fetches the URL,
+calculates both hashes, and makes sure that the hash on the command line
+matches either one of the hashes.
+
+Author: @tdsmith
+Usage: brew checksha url [hash]
+"""
+
+from __future__ import print_function
+
+import argparse
+import hashlib
+import subprocess
+import sys
+
+
+description = __doc__
+
+
+def main():
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument("url")
+    parser.add_argument("hash", nargs="?", default=None)
+    args = parser.parse_args()
+
+    curl_args = ["curl", "-L", args.url]
+
+    output = subprocess.check_output(curl_args)
+    sha1 = hashlib.sha1(output).hexdigest()
+    sha256 = hashlib.sha256(output).hexdigest()
+
+    print("SHA1: {}\nSHA256: {}".format(sha1, sha256))
+    bad = False
+    if args.hash:
+        if sha1 == args.hash or sha256 == args.hash:
+            print("Hash OK")
+        else:
+            print("Hash mismatch")
+            bad = True
+    return int(bad)
+
+if __name__ == "__main__":
+    sys.exit(main())
