@@ -5,7 +5,7 @@
 # Usage: brew fix <formula> [<formula> ...]
 #
 # Note: this is experimental, use it at your own risk!
-# 
+#
 # This is an extension to `brew style --fix` which runs more actions on the
 # formula:
 #  - remove any `require "formula"` at the top
@@ -21,7 +21,7 @@ end
 
 class FormulaFixer
   def initialize(f)
-    system "brew", "style", "--fix", f.name
+    system "brew", "style", "--fix", f.full_name
     @f = f
     @source = @f.path.open(&:read)
   end
@@ -70,8 +70,13 @@ class FormulaFixer
   end
 
   def fix_checksum
-    fix_resource_checksum @f.stable
-    @f.resources.each { |r| fix_resource_checksum(r) }
+    ([
+      @f.stable,
+      @f.devel,
+      @f.head
+    ] + @f.resources + @f.patchlist.map(&:resource)).compact.each do |r|
+      fix_resource_checksum r
+    end
   end
 
   def fix_resource_checksum(res)
