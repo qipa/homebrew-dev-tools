@@ -74,7 +74,7 @@ class FormulaFixer
       @f.stable,
       @f.devel,
       @f.head
-    ] + @f.resources + @f.patchlist.map(&:resource)).compact.each do |r|
+    ] + @f.resources + @f.patchlist.select(&:external?).map(&:resource)).compact.each do |r|
       fix_resource_checksum r
     end
   end
