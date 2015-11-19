@@ -1,6 +1,6 @@
 #
 # Description:
-#   Update all core formulae that have SH1 bottles with SHA256 ones.
+#   Update all core formulae's SHA1 bottles to SHA256 ones.
 # Author: xu-cheng (modified by bfontaine)
 # Original Script: https://gist.github.com/xu-cheng/49877859eff07181dbf7
 # Usage: brew bottle-sha256
