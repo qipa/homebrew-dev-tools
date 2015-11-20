@@ -46,6 +46,6 @@ Formula.core_files.each do |fi|
 
   next unless updated
 
-  ohai "Update #{formula.basename(".rb")}"
+  ohai "#{formula.basename(".rb")} updated"
   formula.open("w") { |io| io.write source }
 end
