@@ -1,17 +1,17 @@
 # homebrew-dev-tools
 Development tools for Homebrew maintainers
 
-## Install
+## Installation
 
 ```
 brew tap homebrew/dev-tools
 ```
 
-## Add new tools
+## Adding new tools
 
-Read [Homebrew document](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/External-Commands.md) to see how to create Homebrew external commands.
+Read the ["External Commands" Homebrew document](https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/External-Commands.md) to see how to create Homebrew external commands.
 
-As a good practice, adding information on usage and origin as ruby comment is recommended.
+As a good practice, adding information on usage and origin as ruby comments is recommended.
 A blank template can be found below.
 
 ```ruby

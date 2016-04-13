@@ -1,51 +1,55 @@
 #! /usr/bin/env ruby
 # -*- coding: UTF-8 -*-
 #
-# Description: boneyard a formula.
-#   It assumes you have a personal fork of both the Homebrew core and the
-#   boneyard tap. It creates a new branch on both repos; remove the formula in
-#   the core and add it to tap_migrations.rb; add it in the boneyard repo;
-#   commit and push in both; and open both PR pages in your browser.
+# Description: boneyard a formula from homebrew/core.
+#   This assumes you have a personal fork of both the homebrew/core and
+#   homebrew/boneyard tap repos. It:
+#     * creates a new branch on both repos
+#     * removes the formula from homebrew/core and lists it in tap_migrations.json
+#     * adds it in the boneyard repo
+#     * commits and pushes in both repos
+#     * opens PR creation pages for both in your browser
+#   Uses the "git config github.user" setting to determine your GitHub user
+#
 # Author: Baptiste Fontaine
 # Usage:
-#   brew boneyard <core formula>
+#   brew boneyard <core-formula>
 
 github_user = `git config github.user`.chomp
-fail "github.user is not set" if github_user == ""
+raise "github.user is not set" if github_user == ""
 
-core_repo = "#{github_user}/homebrew"
+core_repo = "#{github_user}/homebrew-core"
 core_remote = "git@github.com:#{core_repo}.git"
 
 boneyard_repo = "#{github_user}/homebrew-boneyard"
 boneyard_remote = "git@github.com:#{boneyard_repo}.git"
 
-migrations = "#{HOMEBREW_PREFIX}/Library/Homebrew/tap_migrations.rb"
+migrations = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-core/tap_migrations.json"
 
 ARGV.named.each do |name|
-  source_dir = "#{HOMEBREW_PREFIX}/Library/Formula"
-  target_dir = "#{HOMEBREW_PREFIX}/Library/Taps/homebrew/homebrew-boneyard"
+  source_dir = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-core/Formula"
+  target_dir = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-boneyard"
   branch = "#{name}-boneyard"
   file = "#{name}.rb"
 
   source = "#{source_dir}/#{file}"
   target = "#{target_dir}/#{file}"
 
-  fail "Source file #{source} doesn't exist" unless File.exist? source
-  fail "Target file #{target} already exists" if File.exist? target
+  raise "Source file #{source} doesn't exist" unless File.exist? source
+  raise "Target file #{target} already exists" if File.exist? target
 
   FileUtils::Verbose.mv source, target
 
-  # hacky way to add a line in the tap_migrations.rb file
+  # hacky way to add a line in the tap_migrations.json file
   mlines = File.read(migrations).lines
   first_line = mlines[0]
   last_line = mlines[-1]
   File.open(migrations, "w") do |f|
     f.write first_line
-    m = mlines.slice(1..-2)
-    m << "  \"#{name}\" => \"homebrew/boneyard\",\n"
-    m.sort.each do |line|
-      f.write line
-    end
+    m = mlines.slice(1..-2).map { |s| s.sub(/,?\n?$/, "") }
+    m << "  \"#{name}\": \"homebrew/boneyard\""
+    m.sort!
+    f.write(m.join(",\n")+"\n")
     f.write last_line
   end
 
