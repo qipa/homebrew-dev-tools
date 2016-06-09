@@ -16,7 +16,7 @@
 #   brew boneyard <core-formula>
 
 github_user = `git config github.user`.chomp
-raise "github.user is not set" if github_user == ""
+raise "Please run git --global --add github.user your_username" if github_user == ""
 
 core_repo = "#{github_user}/homebrew-core"
 core_remote = "git@github.com:#{core_repo}.git"
@@ -25,10 +25,11 @@ boneyard_repo = "#{github_user}/homebrew-boneyard"
 boneyard_remote = "git@github.com:#{boneyard_repo}.git"
 
 migrations = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-core/tap_migrations.json"
+source_dir = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-core/Formula"
+target_dir = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-boneyard"
+raise "Please run brew tap homebrew/boneyard" unless File.exist? target_dir
 
 ARGV.named.each do |name|
-  source_dir = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-core/Formula"
-  target_dir = "#{HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-boneyard"
   branch = "#{name}-boneyard"
   file = "#{name}.rb"
 
