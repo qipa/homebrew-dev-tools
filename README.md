@@ -9,7 +9,7 @@ brew tap homebrew/dev-tools
 
 ## Adding new tools
 
-Read the ["External Commands" Homebrew document](https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/External-Commands.md) to see how to create Homebrew external commands.
+Read the ["External Commands" Homebrew document](https://github.com/Homebrew/brew/blob/master/docs/External-Commands.md) to see how to create Homebrew external commands.
 
 As a good practice, adding information on usage and origin as ruby comments is recommended.
 A blank template can be found below.
