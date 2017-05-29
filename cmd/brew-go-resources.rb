@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 # Description: generate `go_resource`s blocks for a Go package that uses Godep.
 # Author: Baptiste Fontaine
 # Usage:
@@ -26,24 +24,24 @@ class GoDep
     @revision = attrs["Rev"]
 
     case @path
-    when %r[^(github\.com/[^/]+/[^/]+)]
+    when %r{^(github\.com/[^/]+/[^/]+)}
       @path = $1
       @url = "https://#{$1}.git"
-    when %r[^(code\.google\.com/p/(?:[^/]+))]
+    when %r{^(code\.google\.com/p/(?:[^/]+))}
       @path = $1
       @url = "https://#{@path}"
       @using = ":hg"
-    when %r[^sourcegraph\.com/(.+)]
+    when %r{^sourcegraph\.com/(.+)}
       @url = "https://github.com/#{$1}.git"
-    when %r[^(golang\.org/x/([^/]+))]
+    when %r{^(golang\.org/x/([^/]+))}
       @path = $1
       @url = "https://go.googlesource.com/#{$2}.git"
-    when %r[^gopkg\.in/]
+    when %r{^gopkg\.in/}
       @url = "https://#{@path}.git"
-    when %r[^(google\.golang\.org/api)(?:/.+)]
+    when %r{^(google\.golang\.org/api)(?:/.+)}
       @path = $1
       @url = "https://github.com/google/google-api-go-client.git"
-    when %r[^(google\.golang\.org/cloud)(?:/.+)]
+    when %r{^(google\.golang\.org/cloud)(?:/.+)}
       @path = $1
       @url = "https://code.googlesource.com/gocloud.git"
     else
@@ -67,7 +65,7 @@ class Godeps
   end
 
   def deps
-    @deps || @deps = (@spec["Deps"] || []).map { |d| GoDep.new(d) }
+    @deps || @deps = (@spec["Deps"] || []).map { |d| GoDep.new(d) }
   end
 
   def to_resources

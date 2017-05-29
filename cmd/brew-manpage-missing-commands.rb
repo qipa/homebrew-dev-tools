@@ -8,9 +8,10 @@
 require "cmd/commands"
 
 manpage = File.read HOMEBREW_REPOSITORY/"Library/Homebrew/manpages/brew.1.md"
-commands_in_manpage = manpage.scan(/\* `(.+)`[^`]*:/).
-  flat_map { |m| m.first.split "`, `" }.
-  map { |m| m.sub %r{ .*$}, "" }.uniq
+commands_in_manpage = manpage.scan(/\* `(.+)`[^`]*:/)
+                             .flat_map { |m| m.first.split "`, `" }
+                             .map { |m| m.sub(/ .*$/, "") }
+                             .uniq
 
 missing_commands = Homebrew.internal_commands - commands_in_manpage
 extra_commands = commands_in_manpage - Homebrew.internal_commands \

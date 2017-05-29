@@ -38,7 +38,7 @@ Formula.core_files.each do |fi|
       next
     end
 
-    source.gsub!(/sha1 ["']#{sha1}["']/, %(sha256 "#{file.sha256}"))
+    source.gsub!(/sha1 ["']#{sha1}["']/, %Q(sha256 "#{file.sha256}"))
     updated = true
     # I don't have unlimited disk space ;)
     FileUtils.rm_f file
