@@ -61,9 +61,7 @@ class Vulnchecker
       output_buffer = @vulns
     end
 
-    if output_buffer.empty?
-      output_buffer = "No vulnerabilities found."
-    end
+    output_buffer = "No vulnerabilities found." if output_buffer.empty?
 
     if ARGV.include? "--outfile"
       File.open("brew_vulnchecker_output.txt", "w") { |f| f.write(output_buffer) }
@@ -148,7 +146,7 @@ class Vulnchecker
 
     deps.each_with_index do |dep, i|
       chr = "└──"
-      prefix_ext = i == max ? "    " : "│   "
+      prefix_ext = (i == max) ? "    " : "│   "
 
       if !@vulns[dep.name].nil?
         output << prefix << "#{chr} #{dep.name} is vulnerable to: #{@vulns[dep.name].join(" ")}\n"
@@ -157,9 +155,7 @@ class Vulnchecker
       end
 
       tmp = recursive_deps_tree(Formulary.factory(dep.name), prefix + prefix_ext)
-      if tmp[/CVE-/]
-        output << tmp
-      end
+      output << tmp if tmp[/CVE-/]
     end
 
     output
@@ -177,9 +173,7 @@ class Vulnchecker
       begin
         vulns = get_cves(formula.name, formula_version)
 
-        if vulns.any?
-          vuln_hash[formula.full_name] = vulns
-        end
+        vuln_hash[formula.full_name] = vulns if vulns.any?
       rescue Errno::EHOSTDOWN, Errno::ETIMEDOUT => e
         puts "[!] An error occurred while lookup up vulns for #{formula.full_name}: #{e}"
       end

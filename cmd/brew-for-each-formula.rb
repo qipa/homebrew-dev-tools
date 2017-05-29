@@ -15,4 +15,7 @@ if ARGV.empty?
 end
 
 require "formula"
-Formula.each { |f| eval(ARGV.first) }
+
+# Need to eval here and we control the input
+# rubocop:disable Security/Eval
+Formula.each { |_f| eval(ARGV.first) }
