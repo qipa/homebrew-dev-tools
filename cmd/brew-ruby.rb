@@ -7,4 +7,4 @@
 #   brew ruby -e "puts :gcc.f.deps"
 #   brew ruby script.rb
 #
-exec "ruby", "-I#{HOMEBREW_LIBRARY_PATH}", "-rglobal", "-rcmd/irb", *ARGV
+exec ENV["HOMEBREW_RUBY_PATH"], "-I#{HOMEBREW_LIBRARY_PATH}", "-rglobal", "-rcmd/irb", *ARGV
