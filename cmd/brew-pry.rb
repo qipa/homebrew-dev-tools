@@ -1,18 +1,11 @@
-#!/usr/bin/env ruby
-
 #
-# Description: run the interacitve Homebrew Ruby shell powered by pry
+# Description: run the interactive Homebrew Ruby shell powered by pry
 # Author: xu-cheng
 # Usage:
 #   brew pry [--examples]
 #
 
-require "pathname"
-HOMEBREW_LIBRARY_PATH = Pathname.new(ENV["HOMEBREW_LIBRARY_PATH"])
-$LOAD_PATH.unshift HOMEBREW_LIBRARY_PATH
-require "global"
-require "formula"
-require "keg"
+Homebrew.install_gem_setup_path! "pry"
 require "pry"
 
 class Symbol

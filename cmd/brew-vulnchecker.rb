@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 #
 # Description: Check formulae for known vulnerabilities. Outputs
 #              json by default.
@@ -13,18 +11,14 @@
 #   brew vulnchecker [specific formulae] [--deptree] [--outfile]
 #
 
+Homebrew.install_gem_setup_path! "nokogiri"
+
 require "formula"
 require "ostruct"
 require "set"
 require "cgi"
 
-begin
-  require "nokogiri"
-rescue LoadError
-  puts "Homebrew does not provide Ruby dependencies; install with:"
-  puts "  gem install nokogiri"
-  odie "Dependency nokogiri is not installed."
-end
+require "nokogiri"
 
 trap("SIGINT") do
   puts "\nExiting..."
