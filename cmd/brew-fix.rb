@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 # Description: an experimental extension to `brew style --fix`
 # Author: Baptiste Fontaine
 # Usage: brew fix <formula> [<formula> ...]
