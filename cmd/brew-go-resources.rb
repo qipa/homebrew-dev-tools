@@ -76,7 +76,7 @@ end
 root = Pathname.new(ARGV.shift || ".")
 path = [root/"Godeps/Godeps.json", root/"Godeps.json", root].find(&:exist?)
 unless path
-  puts <<-EOS.undent
+  puts <<~EOS
     Usage:
       brew go-resources <path>
   EOS

@@ -17,5 +17,4 @@ end
 require "formula"
 
 # Need to eval here and we control the input
-# rubocop:disable Security/Eval
-Formula.each { |_f| eval(ARGV.first) }
+Formula.each { |_| eval(ARGV.first) } # rubocop:disable Security/Eval
