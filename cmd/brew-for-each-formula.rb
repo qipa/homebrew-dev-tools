@@ -17,4 +17,8 @@ end
 require "formula"
 
 # Need to eval here and we control the input
-Formula.each { |_| eval(ARGV.first) } # rubocop:disable Security/Eval
+# rubocop:disable Security/Eval
+# rubocop:disable Lint/UnusedBlockArgument
+Formula.each { |f| eval(ARGV.first) }
+# rubocop:enable Security/Eval
+# rubocop:enable Lint/UnusedBlockArgument
