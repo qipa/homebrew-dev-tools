@@ -23,7 +23,7 @@ before_install:
 
 script:
   - brew style "$TRAVIS_REPO_SLUG"
-  - brew ruby -e true
+  - brew for-each-formula true
 
 notifications:
   email:
